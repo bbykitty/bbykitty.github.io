@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Personal Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --text-light: #7f8c8d;
+            --bg-light: #f8f9fa;
+            --bg-paper: #ffffff;
+            --border-color: #e9ecef;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: var(--primary-color);
+            background: var(--bg-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--bg-paper);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-color);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-color);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .page {
+            display: none;
+            padding: 3rem 0;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Home Page */
+        .hero {
+            background: var(--bg-paper);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .profile-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .profile-content .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .bio {
+            text-align: left;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .interests-section {
+            padding: 4rem 0;
+            background: var(--bg-light);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+        }
+
+        .interests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .interest-card {
+            background: var(--bg-paper);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .interest-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .interest-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        /* CV Page */
+        .cv-section {
+            background: var(--bg-paper);
+            margin-bottom: 2rem;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .cv-section h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cv-item {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cv-item:last-child {
+            border-bottom: none;
+        }
+
+        .cv-item h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .cv-meta {
+            color: var(--text-light);
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Projects Page */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-paper);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-header {
+            background: var(--accent-color);
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .project-body {
+            padding: 1.5rem;
+        }
+
+        .skills-section {
+            margin-top: 3rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: var(--bg-paper);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .skill-category h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: var(--accent-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Contact Page */
+        .contact-content {
+            background: var(--bg-paper);
+            padding: 3rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 6px;
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Mobile menu toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--bg-paper);
+                flex-direction: column;
+                box-shadow: var(--shadow);
+                padding: 1rem 0;
+            }
+            
+            .nav-links.mobile-open {
+                display: flex;
+            }
+            
+            .nav-links li {
+                text-align: center;
+                padding: 0.5rem 0;
+            }
+        }
+
+            .profile-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-content h1 {
+                font-size: 2rem;
+            }
+
+            .interests-grid,
+            .projects-grid,
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Academic touches */
+        blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: var(--text-light);
+        }
+
+        .academic-note {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: 4px;
+            border-left: 4px solid var(--accent-color);
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <div class="logo">Mariah Bradford</div>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#" onclick="showPage('home')" class="nav-link active">Home</a></li>
+                    <li><a href="#" onclick="showPage('cv')" class="nav-link">CV</a></li>
+                    <li><a href="#" onclick="showPage('projects')" class="nav-link">Projects</a></li>
+                    <li><a href="#" onclick="showPage('contact')" class="nav-link">Contact</a></li>
+                </ul>
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <section class="hero">
+                <div class="container">
+                    <div class="profile-section">
+                        <div class="profile-image">
+                            Your Photo Here
+                        </div>
+                        <div class="profile-content">
+                            <h1>Mariah Bradford</h1>
+                            <p class="subtitle">PhD Candidate | Researcher in Human-Centered AI</p>
+                            <div class="bio">
+                                <p>Welcome to my personal website. I am a PhD candidate in Computer Science at Colorado State University with a passion for human-centered AI and collaboration research. My work focuses on understanding how AI systems can better support human collaboration through behavioral modeling and multimodal analysis.</p>
+                                <p>I hold a B.S. in Computer Science and Psychology from Colorado State University (2022) and have been conducting research in AI and human behavior for several years. My research interests include human-centered AI, collaboration research, behavioral modeling, and natural language processing, with a particular focus on understanding team dynamics in collaborative environments.</p>
+                                <p>When I'm not researching, I enjoy exploring the intersection of technology and human behavior, and I believe in the importance of creating AI systems that truly serve human needs and enhance our collaborative capabilities.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="interests-section">
+                <div class="container">
+                    <h2 class="section-title">Interests & Hobbies</h2>
+                    <div class="interests-grid">
+                        <div class="interest-card">
+                            <h3>Human-Centered AI Research</h3>
+                            <p>Passionate about developing AI systems that understand and enhance human collaboration. My research focuses on modeling individual beliefs and behaviors in team settings using advanced machine learning techniques.</p>
+                        </div>
+                        <div class="interest-card">
+                            <h3>Multimodal Analysis</h3>
+                            <p>Fascinated by the intersection of text, speech, and behavioral data. I work on detecting collaborative states and understanding team dynamics through comprehensive multimodal datasets and analysis.</p>
+                        </div>
+                        <div class="interest-card">
+                            <h3>Natural Language Processing</h3>
+                            <p>Deeply interested in how language reveals collaboration patterns and team dynamics. My work includes linking deliberation chains in collaborative dialogues and common ground tracking in conversations.</p>
+                        </div>
+                        <div class="interest-card">
+                            <h3>Academic Community</h3>
+                            <p>Committed to advancing the field through peer review and conference participation. I serve on program committees for major conferences like COLING and AIED, contributing to the scholarly community.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- CV Page -->
+        <div id="cv" class="page">
+            <div class="container">
+                <h1 class="section-title">Curriculum Vitae</h1>
+                
+                <div class="cv-section">
+                    <h2>Education</h2>
+                    <div class="cv-item">
+                        <h3>Ph.D. in Computer Science</h3>
+                        <div class="cv-meta">Colorado State University | Expected 2026</div>
+                        <p>Research focus: Human-centered AI, collaboration research, and behavioral modeling</p>
+                        <p>Key coursework: Machine Learning, Statistics, Natural Language Processing</p>
+                    </div>
+                    <div class="cv-item">
+                        <h3>B.S. in Computer Science and Psychology</h3>
+                        <div class="cv-meta">Colorado State University | 2022</div>
+                        <p>Research focus: Team behavior and human cognition</p>
+                        <p>Key coursework: Research Design, Industrial Psychology</p>
+                    </div>
+                </div>
+
+                <div class="cv-section">
+                    <h2>Professional Experience</h2>
+                    <div class="cv-item">
+                        <h3>Graduate Research Assistant</h3>
+                        <div class="cv-meta">Colorado State University | 2021 - Present</div>
+                        <p>• Assessed team collaboration using advanced machine learning techniques</p>
+                        <p>• Modeled behavior and gained insights from language features</p>
+                        <p>• Developed, collected, and analyzed human-subject datasets</p>
+                        <p>• Developed and demonstrated live AI/ML applications</p>
+                        <p>• Published 18 papers in peer-reviewed conferences and journals</p>
+                        <p>• Worked with government-funded grants (NSF and DARPA)</p>
+                        <p>• Presented work at AI/ML/Education conferences</p>
+                    </div>
+                </div>
+
+                <div class="cv-section">
+                    <h2>Key Publications</h2>
+                    <div class="cv-item">
+                        <h3>Recent Publications</h3>
+                        <p>Mariah Bradford, Hannah VanderHoeven, Ibrahim Khebour, Videep Venkatesha, Nathaniel Blanchard, and Nikhil Krishnaswamy. (In press). "Modeling Individual Beliefs in Co-Situated Groups." <em>International Conference on Human-Computer Interaction</em>, 2025.</p>
+                        
+                        <p>Abhijnan Nath, Videep Venkatesha, Mariah Bradford, Avyakta Chelle, Austin Youngren, Carlos Mabrey, Nathaniel Blanchard, and Nikhil Krishnaswamy. 2024. "Any Other Thoughts, Hedgehog?" Linking Deliberation Chains in Collaborative Dialogues." <em>Findings of the Association for Computational Linguistics: EMNLP 2024</em>, 5297–5314.</p>
+                        
+                        <p>Ibrahim Khalil Khebour, Kenneth Lai, Mariah Bradford, Yifan Zhu, Richard Brutti, Christopher Tam, Jingxuan Tu, Benjamin Ibarra, Nathaniel Blanchard, and Nikhil Krishnaswamy. 2024. "Common Ground Tracking in Multimodal Dialogue." <em>Proceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and Evaluation (LREC-COLING 2024)</em>, 3587–3602.</p>
+                        
+                        <p>Mariah Bradford, Ibrahim Khebour, Nathaniel Blanchard, and Nikhil Krishnaswamy. 2023. "Automatic detection of collaborative states in small groups using multimodal features." <em>International Conference on Artificial Intelligence in Education</em>, Springer, 767–773.</p>
+                        
+                        <p style="font-style: italic; margin-top: 1rem;">Full list of 18+ publications available upon request.</p>
+                    </div>
+                </div>
+
+                <div class="cv-section">
+                    <h2>Awards & Honors</h2>
+                    <div class="cv-item">
+                        <p><strong>Rising Star Award</strong> - Colorado State University</p>
+                        <p><strong>Research Grant: "Collecting Classroom Data for Multimodal Detection of Key CPS Indicators"</strong> - Funded $2,500</p>
+                    </div>
+                </div>
+
+                <div class="cv-section">
+                    <h2>Service</h2>
+                    <div class="cv-item">
+                        <p><strong>Program Committee</strong> - COLING 2025</p>
+                        <p><strong>Program Committee</strong> - LREC-COLING 2024</p>
+                        <p><strong>Program Committee</strong> - AIED 2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Page -->
+        <div id="projects" class="page">
+            <div class="container">
+                <h1 class="section-title">Projects & Skills</h1>
+                
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3>NSF AI Institute for Student-AI Teaming (iSAT)</h3>
+                        </div>
+                        <div class="project-body">
+                            <p><strong>Role:</strong> Graduate Research Assistant</p>
+                            <p><strong>Funding:</strong> National Science Foundation</p>
+                            <p>Working on collaborative AI systems that support student learning through intelligent teaming. Focus on understanding how AI can enhance human-to-human collaboration in educational settings through behavioral modeling and multimodal analysis.</p>
+                            <div class="academic-note">
+                                <strong>Key Contribution:</strong> Developed methods for automatic detection of collaborative states in small groups using multimodal features
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3>DARPA FACT Program</h3>
+                        </div>
+                        <div class="project-body">
+                            <p><strong>Program:</strong> Friction for Accountability in Conversational Transactions</p>
+                            <p><strong>Role:</strong> Research Team Member</p>
+                            <p>Developing AI systems for analyzing conversational dynamics and accountability in collaborative dialogues. Work focuses on common ground tracking and understanding deliberation chains in team conversations.</p>
+                            <div class="academic-note">
+                                <strong>Publications:</strong> Multiple papers published in EMNLP and LREC-COLING from this research
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h3>Multimodal Collaboration Detection</h3>
+                        </div>
+                        <div class="project-body">
+                            <p><strong>Focus:</strong> Individual Belief Modeling in Teams</p>
+                            <p><strong>Award:</strong> Rising Star Award Recognition</p>
+                            <p>Research on modeling individual beliefs in co-situated groups through multimodal data analysis. Combines natural language processing, behavioral analysis, and machine learning to understand team dynamics.</p>
+                            <div class="academic-note">
+                                <strong>Impact:</strong> Published in International Conference on Human-Computer Interaction 2025
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skills-section">
+                    <h2 class="section-title">Skills & Competencies</h2>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h3>Technical Skills</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Python</span>
+                                <span class="skill-tag">R</span>
+                                <span class="skill-tag">TensorFlow</span>
+                                <span class="skill-tag">PyTorch</span>
+                                <span class="skill-tag">Scikit-learn</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3>AI & Data Science</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Natural Language Processing</span>
+                                <span class="skill-tag">Machine Learning</span>
+                                <span class="skill-tag">Statistical Modeling</span>
+                                <span class="skill-tag">Automated Assessment</span>
+                                <span class="skill-tag">Embedding-based Similarity</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3>Research Skills</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Research Design</span>
+                                <span class="skill-tag">Human-Subject Studies</span>
+                                <span class="skill-tag">Multimodal Analysis</span>
+                                <span class="skill-tag">Behavioral Modeling</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3>Professional Skills</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Academic Writing</span>
+                                <span class="skill-tag">Public Speaking</span>
+                                <span class="skill-tag">Project Management</span>
+                                <span class="skill-tag">Leadership</span>
+                                <span class="skill-tag">Collaboration</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <div class="container">
+                <h1 class="section-title">Contact Information</h1>
+                
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">@</div>
+                            <div>
+                                <strong>Email</strong><br>
+                                bradford.mariah99@gmail.com
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div>
+                                <strong>Location</strong><br>
+                                Fort Collins, CO<br>
+                                Colorado State University<br>
+                                Computer Science Department
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <div>
+                                <strong>Phone</strong><br>
+                                720.984.4199
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">🔗</div>
+                            <div>
+                                <strong>Professional Profiles</strong><br>
+                                <a href="#" style="color: var(--accent-color);">LinkedIn</a> | 
+                                <a href="#" style="color: var(--accent-color);">Google Scholar</a> | 
+                                <a href="#" style="color: var(--accent-color);">ResearchGate</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="academic-note">
+                        <strong>Research Interests:</strong> I am always interested in discussing collaboration opportunities, 
+                        particularly in the areas of human-centered AI, multimodal collaboration analysis, and behavioral modeling. 
+                        Please feel free to reach out if you'd like to discuss potential research partnerships or have questions about my work.
+                    </div>
+
+                    <p style="margin-top: 2rem; text-align: center; color: var(--text-light);">
+                        I welcome collaboration opportunities, speaking engagements, and discussions about human-centered AI research. 
+                        Please feel free to reach out via email for the quickest response.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update navigation
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            // Find and activate the clicked nav link
+            const clickedLink = document.querySelector(`[onclick="showPage('${pageId}')"]`);
+            if (clickedLink) {
+                clickedLink.classList.add('active');
+            }
+            
+            // Close mobile menu if open
+            const mobileNav = document.getElementById('nav-links');
+            mobileNav.classList.remove('mobile-open');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('nav-links');
+            navLinks.classList.toggle('mobile-open');
+        }
+
+        // Smooth scrolling for internal navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add any additional JavaScript functionality here
+        });
+    </script>
+</body>
+</html>
